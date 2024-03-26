@@ -29,6 +29,12 @@ const ActionCreatorPopover = ({ trigger, addAction }: ActionCreatorPopover) => {
     type: "interact" as "interact",
   };
 
+  const defaultRepeatData = {
+    type: "repeat" as "repeat",
+    actions: [],
+    times: 1,
+  };
+
   const buttons = [
     {
       text: "Speak",
@@ -60,6 +66,16 @@ const ActionCreatorPopover = ({ trigger, addAction }: ActionCreatorPopover) => {
         });
       },
     },
+    {
+      text: "Repeat",
+      icon: "fa-solid fa-repeat",
+      onClick: () => {
+        addAction({
+          id: generateUniqueString(),
+          data: defaultRepeatData,
+        });
+      },
+    },
   ];
 
   return (
@@ -74,7 +90,7 @@ const ActionCreatorPopover = ({ trigger, addAction }: ActionCreatorPopover) => {
             </p>
           </div>
           <div className="flex flex-row flex-wrap justify-center gap-2">
-            {buttons.map((buttonData) => {
+            {buttons.map((buttonData, index) => {
               return (
                 <Button
                   className="flex flex-col items-center h-20 w-20"
@@ -83,6 +99,7 @@ const ActionCreatorPopover = ({ trigger, addAction }: ActionCreatorPopover) => {
                     buttonData.onClick();
                     setOpen(false);
                   }}
+                  key={index}
                 >
                   <i className={`${buttonData.icon} text-xl text-primary`}></i>
                   <span className="mt-2">{buttonData.text}</span>

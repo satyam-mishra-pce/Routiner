@@ -10,10 +10,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
 import React, { useEffect, useState } from "react";
-import Speak from "./Speak";
-import Wait from "./Wait";
-import Interact from "./Interact";
-import Repeat from "./Repeat";
+import Speak from "../Speak";
+import Wait from "../Wait";
+import Interact from "../Interact";
+import Repeat from ".";
 
 type ActionItem = {
   data: Action;
@@ -88,18 +88,10 @@ const ActionItem = ({ data, utils }: ActionItem) => {
           {actionDataTypeMapper[actionDataType[0]].title}
         </span>
         <div>
-          <Button
-            variant={"ghost"}
-            onClick={() => utils.moveUp(utils.index)}
-            disabled={utils.index === 0}
-          >
+          <Button variant={"ghost"} onClick={() => utils.moveUp(utils.index)}>
             <i className="fa-regular fa-chevron-up"></i>
           </Button>
-          <Button
-            variant={"ghost"}
-            onClick={() => utils.moveDown(utils.index)}
-            disabled={utils.index === utils.length - 1}
-          >
+          <Button variant={"ghost"} onClick={() => utils.moveDown(utils.index)}>
             <i className="fa-regular fa-chevron-down"></i>
           </Button>
           <Button

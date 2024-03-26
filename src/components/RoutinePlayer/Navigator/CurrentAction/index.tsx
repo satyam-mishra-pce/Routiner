@@ -6,6 +6,7 @@ import type {
   SpeakCount as SpeakCountType,
   Wait as WaitType,
   Interact as InteractType,
+  Basic,
 } from "@/components/RoutineItem";
 import { generateUniqueString } from "@/lib/utils";
 import SpeakCount from "./SpeakCount";
@@ -29,12 +30,15 @@ const switchMap = (
 };
 
 type CurrentAction = {
-  action: Action;
+  action: Action<Basic>;
   onComplete: () => void;
 };
 
 const CurrentAction = ({ action, onComplete }: CurrentAction) => {
-  const [id] = useState(generateUniqueString());
+  const [id, setId] = useState(generateUniqueString());
+  useEffect(() => {
+    setId(generateUniqueString());
+  }, [action]);
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-2 text-primary">
       <div className="text-4xl font-bold mb-2 w-full text-center">

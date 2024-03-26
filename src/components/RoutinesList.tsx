@@ -9,6 +9,7 @@ import RoutineEditor from "./RoutineEditor";
 import RoutinePlayer from "./RoutinePlayer";
 import autoAnimate from "@formkit/auto-animate";
 import useLocalStorage from "use-local-storage";
+import { compileRoutine } from "@/lib/utils";
 
 type EmptyList = CreateRoutineDialogProps;
 
@@ -115,11 +116,13 @@ const RoutinesList = () => {
           back={exitRoutineEditor}
           save={saveRoutineChanges}
         />
-      ) : (
+      ) : routinePlayerData ? (
         <RoutinePlayer
-          data={routinePlayerData as Routine}
+          data={compileRoutine(routinePlayerData)}
           exit={exitRoutinePlayer}
         />
+      ) : (
+        <></>
       )}
     </>
   );

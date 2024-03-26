@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import CurrentAction from "./CurrentAction";
-import { Action } from "../../RoutineItem";
+import { Action, Basic } from "../../RoutineItem";
 import { Button } from "../../ui/button";
 import OtherAction from "./OtherAction";
 
 type Navigator = {
-  data: Action[];
+  data: Action<Basic>[];
   onComplete: () => void;
 };
 

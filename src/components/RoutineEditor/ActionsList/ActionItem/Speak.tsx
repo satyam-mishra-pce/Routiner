@@ -112,6 +112,16 @@ const Speak = ({ data, onChange }: Speak) => {
   );
 
   useEffect(() => {
+    const dataSpeakType = getSpeakType(data);
+    setSpeakType(dataSpeakType);
+    if (dataSpeakType === 0) {
+      setCountData(data as SpeakCount);
+    } else {
+      setTextData(data as SpeakText);
+    }
+  }, [data]);
+
+  useEffect(() => {
     if (speakType === 0) {
       onChange(countData);
     } else {

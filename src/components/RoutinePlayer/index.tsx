@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Action, Routine } from "../RoutineItem";
+import { Action, Basic, Routine } from "../RoutineItem";
 import { Button } from "../ui/button";
 import Navigator from "./Navigator";
 import ExitPlayerDialog from "./ExitPlayerDialog";
 
 type RoutinePlayer = {
-  data: Routine;
+  data: Routine<Basic>;
   exit: () => void;
 };
 
@@ -36,7 +36,7 @@ const RoutinePlayer = ({ data, exit }: RoutinePlayer) => {
           </Button>
         </div>
         <Navigator
-          data={data.actions as Action[]}
+          data={data.actions as Action<Basic>[]}
           onComplete={showExitPlayerDialog}
         />
         <ExitPlayerDialog

@@ -1,20 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import ActionCreatorPopover from "./ActionCreatorPopover";
 import { Action } from "@/components/RoutineItem";
-import { Button } from "@/components/ui/button";
-import ActionItem from "./ActionItem";
 import autoAnimate from "@formkit/auto-animate";
+import ActionItem from "./ActionItem";
 
 type ActionList = {
   actionsData: Action[];
   setActionsData: React.Dispatch<React.SetStateAction<Action[]>>;
-  placeholder?: React.ReactNode;
+  utils: {
+    addActionAbove: (action: Action) => void;
+    addActionBelow: (action: Action) => void;
+  };
 };
-const ActionsList = ({
-  actionsData,
-  setActionsData,
-  placeholder,
-}: ActionList) => {
+const ActionsList = ({ actionsData, setActionsData, utils }: ActionList) => {
   const listRef = useRef<HTMLDivElement>(null);
 
   const addActionAtIndex = (action: Action, index: number) => {
@@ -26,16 +23,19 @@ const ActionsList = ({
     }
     setActionsData(list);
   };
-  const addAction = (action: Action) => {
-    setActionsData([...actionsData, action]);
-  };
 
   const removeActionById = (id: string) => {
     setActionsData(actionsData.filter((action) => action.id !== id));
   };
 
   const moveUp = (index: number) => {
-    if (index <= 0) return;
+    if (index <= 0) {
+      utils.addActionAbove(actionsData[index]);
+      const list = actionsData.slice(0);
+      list.splice(0, 1);
+      setActionsData(list);
+      return;
+    }
     let list = actionsData.slice(0);
     const thisAction = list[index];
     const aboveAction = list[index - 1];
@@ -49,7 +49,13 @@ const ActionsList = ({
   };
 
   const moveDown = (index: number) => {
-    if (index >= actionsData.length - 1) return;
+    if (index >= actionsData.length - 1) {
+      utils.addActionBelow(actionsData[index]);
+      const list = actionsData.slice(0);
+      list.pop();
+      setActionsData(list);
+      return;
+    }
     let list = actionsData.slice(0);
     const thisAction = list[index];
     const belowAction = list[index + 1];
@@ -75,29 +81,7 @@ const ActionsList = ({
   return (
     <>
       {actionsData.length === 0 ? (
-        <>
-          {placeholder === undefined ? (
-            <div className="flex flex-col items-center justify-center min-h-full w-full pt-14 gap-2">
-              <i className="fa-regular fa-heart-crack text-6xl text-primary/50"></i>
-              <span className="text-muted-foreground">No actions added.</span>
-              <ActionCreatorPopover
-                trigger={
-                  <Button
-                    //   className="h-10 w-10 rounded-full"
-                    variant={"secondary"}
-                    className="px-4"
-                  >
-                    <i className="fa-regular fa-plus-circle mr-2"></i>
-                    <span>Add Action</span>
-                  </Button>
-                }
-                addAction={addAction}
-              />
-            </div>
-          ) : (
-            placeholder
-          )}
-        </>
+        <></>
       ) : (
         <div
           className="flex flex-col items-center justify-center min-h-full pt-2 w-full gap-2"
@@ -120,17 +104,6 @@ const ActionsList = ({
               />
             );
           })}
-          <ActionCreatorPopover
-            trigger={
-              <Button
-                className="h-10 w-10 rounded-full mt-2"
-                variant={"secondary"}
-              >
-                <i className="fa-solid fa-plus"></i>
-              </Button>
-            }
-            addAction={addAction}
-          />
         </div>
       )}
     </>

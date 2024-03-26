@@ -14,8 +14,6 @@ export type SpeakText = {
   type: "speak/text";
 };
 
-export type Speak<T> = T;
-
 export type Wait = {
   duration: number;
   type: "wait";
@@ -25,16 +23,25 @@ export type Interact = {
   type: "interact";
 };
 
-export type Action<T = SpeakText | SpeakCount | Wait | Interact> = {
+export type Repeat = {
+  actions: Action[];
+  times: number;
+  type: "repeat";
+};
+
+export type Basic = SpeakText | SpeakCount | Wait | Interact;
+export type Complex = Basic | Repeat;
+
+export type Action<T = Complex> = {
   id: string;
   data: T;
 };
 
-export type Routine = {
+export type Routine<T = Complex> = {
   name: string;
   id: string;
   description?: string;
-  actions: Action[];
+  actions: Action<T>[];
 };
 
 type RoutineItem = {
