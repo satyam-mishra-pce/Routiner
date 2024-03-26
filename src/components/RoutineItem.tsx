@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "./ui/button";
+import { isRoutinePlayable } from "@/lib/utils";
 
 export type SpeakCount = {
   start: number;
@@ -74,9 +75,9 @@ const RoutineItem = ({ data, edit, play, deleteRoutine }: RoutineItem) => {
         </Button>
         <Button
           onClick={() => {
-            data.actions.length > 0 && play(data);
+            isRoutinePlayable(data) && play(data);
           }}
-          disabled={data.actions.length === 0}
+          disabled={!isRoutinePlayable(data)}
         >
           <i className="fa-solid fa-play mr-2"></i>
           Start

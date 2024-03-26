@@ -16,6 +16,7 @@ const SpeakCount = ({ data, onComplete }: SpeakProps) => {
   const [count, setCount] = useState<number>(data.data.start);
 
   useEffect(() => {
+    console.log("generating speech for", count);
     generateSpeech(count.toString());
     const { start, end, interval } = data.data;
     const jump = data.data.jump ? data.data.jump : 1;

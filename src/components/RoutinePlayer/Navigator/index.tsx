@@ -10,6 +10,7 @@ type Navigator = {
 };
 
 const Navigator = ({ data, onComplete }: Navigator) => {
+  console.log("navigator");
   const [currentActionIndex, setCurrentActionIndex] = useState<number>(0);
 
   const playPreviousAction = () => {

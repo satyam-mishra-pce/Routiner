@@ -35,10 +35,6 @@ type CurrentAction = {
 };
 
 const CurrentAction = ({ action, onComplete }: CurrentAction) => {
-  const [id, setId] = useState(generateUniqueString());
-  useEffect(() => {
-    setId(generateUniqueString());
-  }, [action]);
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-2 text-primary">
       <div className="text-4xl font-bold mb-2 w-full text-center">
@@ -49,24 +45,24 @@ const CurrentAction = ({ action, onComplete }: CurrentAction) => {
           <Wait
             data={action as Action<WaitType>}
             onComplete={onComplete}
-            key={id}
+            key={action.id}
           />
         ),
         "speak/count": (
           <SpeakCount
             data={action as Action<SpeakCountType>}
             onComplete={onComplete}
-            key={id}
+            key={action.id}
           />
         ),
         "speak/text": (
           <SpeakText
             data={action as Action<SpeakTextType>}
             onComplete={onComplete}
-            key={id}
+            key={action.id}
           />
         ),
-        interact: <Interact onComplete={onComplete} key={id} />,
+        interact: <Interact onComplete={onComplete} key={action.id} />,
       })}
     </div>
   );
